@@ -1,0 +1,22 @@
+{
+    "name": "satori/middleware-simple-auth",
+    "description": "Simple auth middleware",
+    "keywords": ["Satori", "middleware", "auth"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuriy Davletshin",
+            "email": "yuriy.davletshin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "satori/application": "dev-master",
+        "satori/http": "dev-master"
+    },
+    "autoload": {
+        "files": [
+            "src/simple-auth.php"
+        ]
+    }
+}
