@@ -25,7 +25,10 @@ use Satori\Http\{Request, Session};
  *          'login_action' => 'loginAction',
  *          'auth_action' => 'authAction',
  *          'session_lifetime' => 'session.lifetime',
- *          'session_domain' => 'domain'
+ *          'session_path' => 'session.path',
+ *          'session_domain' => 'session.domain',
+ *          'session_secure' => 'session.secure',
+ *          'session_httponly' => 'session.httponly'
  *      ]
  *      ```
  *      .
@@ -39,9 +42,12 @@ function init(ApplicationInterface $app, string $id, array $names)
         $loginAction = $names['login_action'];
         $authAction = $names['auth_action'];
         $lifetime = $app[$names['session_lifetime'] ?? ''] ?? 1440;
+        $path = $app[$names['session_path'] ?? ''] ?? '/';
         $domain = $app[$names['session_domain'] ?? ''] ?? '';
+        $secure = $app[$names['session_secure'] ?? ''] ?? false;
+        $httponly = $app[$names['session_httponly'] ?? ''] ?? true;
         $login = $capsule['action'] === $loginAction || $capsule['action'] === $authAction;
-        session_set_cookie_params($lifetime, '/', $domain, false, true);
+        session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         Session\start();
         $validIp = Session\get('user.ip') === $_SERVER['REMOTE_ADDR'];
         if ((Session\has('user.name') and $validIp) or $login) {
