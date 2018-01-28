@@ -24,6 +24,7 @@ use Satori\Http\{Request, Session};
  *      [
  *          'login_action' => 'loginAction',
  *          'auth_action' => 'authAction',
+ *          'login_path' => 'login_path',
  *          'session_lifetime' => 'session.lifetime',
  *          'session_path' => 'session.path',
  *          'session_domain' => 'session.domain',
@@ -41,6 +42,7 @@ function init(ApplicationInterface $app, string $id, array $names)
         $capsule['action'] = $capsule['action'] ?? '';
         $loginAction = $names['login_action'];
         $authAction = $names['auth_action'];
+        $loginPath = $app[$names['login_path'] ?? ''] ?? '/login';
         $lifetime = $app[$names['session_lifetime'] ?? ''] ?? 1440;
         $path = $app[$names['session_path'] ?? ''] ?? '/';
         $domain = $app[$names['session_domain'] ?? ''] ?? '';
@@ -66,7 +68,7 @@ function init(ApplicationInterface $app, string $id, array $names)
         Session\release();
         $capsule['action'] = '';
         $capsule['http.status'] = 303;
-        $capsule['http.headers'] = ['Location' => '/login'];
+        $capsule['http.headers'] = ['Location' => $loginPath];
         $app->notify('finish_auth');
         $next->send($capsule);
 
